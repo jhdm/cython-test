@@ -1,0 +1,6 @@
+include README.md
+recursive-include src/fibonacci *.pyx *.py
+recursive-include tests *.py
+include pyproject.toml
+include setup.py
+include Justfile
