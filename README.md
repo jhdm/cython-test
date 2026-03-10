@@ -1,38 +1,54 @@
-# Fibonacci Extension
+# Cython Example
 
-A high-performance Fibonacci calculation library built with Cython for use in other Python programs.
+A Python extension in Cython example.
 
-## Features
+## Requirements
 
-- ⚡ Fast Fibonacci calculation using Cython
-- 🔧 Easy-to-use API with pure Python fallback
-- 📦 Installable as a Python package
-- 🛠️ Build automation with `just` task runner
+* Python 3.8+
+* Cython 0.29+
+* setuptools 65+
 
-## Installation
+## Quick Start
 
-### From Source
+**Create virtual environment:**
 
-1. Clone the repository
-2. Install build dependencies:
-   ```bash
-   just dev-deps
-   ```
-3. Build and install:
-   ```bash
-   just setup
-   ```
-
-### For Development
-
-Install in editable mode:
 ```bash
-just dev
+uv venv --python 3.14
 ```
 
-## Usage
+That will create virtual environment `.venv/` directory with Python 3.14.
 
-### Basic Usage
+**To install build dependencies:**
+
+```bash
+uv sync --group dev
+```
+
+**To build for development:**
+
+```bash
+uv run python setup.py build_ext --inplace
+```
+
+**To install current package in editable (development) mode:**
+
+```bash
+uv pip install -e .
+```
+
+**To try this package:**
+
+```bash
+uv run python -c 'from fibonacci import fibonacci; print(f"fibonacci(10): {fibonacci(10)}")'
+```
+
+**Expected Output:**
+
+```txt
+fibonacci(10): 55
+```
+
+### Example
 
 ```python
 from fibonacci import fibonacci, fibonacci_sequence
@@ -44,123 +60,26 @@ result = fibonacci(10)  # Returns 55
 sequence = fibonacci_sequence(10)  # Returns [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
 ```
 
-### In Your Package
+## To create setup.py
 
-Add this to your `pyproject.toml`:
-```toml
-[project]
-dependencies = [
-    "fibonacci-extension>=0.1.0",
-]
-```
-
-Then in your code:
-```python
-from fibonacci import fibonacci
-
-fib_number = fibonacci(100)
-```
-
-## Build Tasks
-
-Use `just` to manage the project:
+To create a setup.py file needed for build_ext:
 
 ```bash
-just setup          # Install dependencies and build extension
-just dev            # Install in development mode
-just dev-deps       # Install development dependencies
-just build          # Build the Cython extension
-just wheel          # Build wheel distribution
-just sdist          # Build source distribution
-just dist           # Build all distributions (wheel + sdist)
-just clean          # Clean build artifacts
-just test           # Run tests
-just install-test   # Build and install for testing
-just help           # Show all available tasks
+uv run python -c "import setuptools; from Cython.Build import cythonize; import os; os.system('python setup.py build_ext --inplace')"
 ```
 
-## Requirements
+## Clean up
 
-- Python 3.8+
-- Cython 0.29+
-- setuptools 65+
+To clean up:
 
-## API Reference
-
-### `fibonacci(n: int) -> int`
-
-Calculate the nth Fibonacci number.
-
-**Parameters:**
-- `n` (int): Position in the Fibonacci sequence (0-indexed)
-
-**Returns:**
-- The nth Fibonacci number
-
-**Raises:**
-- `ValueError`: If n is negative
-
-**Example:**
-```python
-from fibonacci import fibonacci
-print(fibonacci(10))  # Output: 55
-```
-
-### `fibonacci_sequence(n: int) -> list`
-
-Generate a list of the first n Fibonacci numbers.
-
-**Parameters:**
-- `n` (int): Number of Fibonacci numbers to generate
-
-**Returns:**
-- List of the first n Fibonacci numbers
-
-**Raises:**
-- `ValueError`: If n is negative
-
-**Example:**
-```python
-from fibonacci import fibonacci_sequence
-print(fibonacci_sequence(5))  # Output: [0, 1, 1, 2, 3]
-```
-
-## Example Script
-
-Run the demo:
 ```bash
-python main.py
+uv run python setup.py clean --all
+rm -rf build/
+rm -rf dist/
+rm -rf *.egg-info/
+rm -rf src/**/*.c
+rm -rf src/**/*.so
+rm -rf src/**/*.pyd
+find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
+find . -type f -name "*.pyc" -delete 2>/dev/null || true
 ```
-
-## Performance
-
-The Cython implementation provides significant performance improvements over pure Python for large calculations:
-
-- Single calculation: ~100x faster for large n (n > 100)
-- Sequence generation: ~50x faster
-
-## Directory Structure
-
-```
-.
-├── src/
-│   └── fibonacci/
-│       ├── __init__.py
-│       └── _fibonacci.pyx
-├── setup.py
-├── pyproject.toml
-├── Justfile
-├── main.py
-└── README.md
-```
-
-## License
-
-MIT
-
-## Development
-
-This project uses:
-- **Cython**: For performance-critical extension code
-- **setuptools**: For building and packaging
-- **just**: For task automation
