@@ -10,7 +10,7 @@ A Python extension in Cython example.
 
 ## Quick Start
 
-**Create virtual environment:**
+### Create virtual environment
 
 ```bash
 uv venv --python 3.14
@@ -18,25 +18,25 @@ uv venv --python 3.14
 
 That will create virtual environment `.venv` directory with Python 3.14.
 
-**To activate virtual environment (on Linux):**
+### To activate virtual environment (on Linux)
 
 ```bash
 source .venv/bin/activate
 ```
 
-**To activate virtual environment (on Windows Bash):**
+### To activate virtual environment (on Windows Bash)
 
 ```bash
 source .venv/Scripts/activate
 ```
 
-**To install build dependencies:**
+### To install build dependencies
 
 ```bash
 uv sync --group dev
 ```
 
-**To build for development:**
+### To build for development
 
 ```bash
 uv run python setup.py build_ext --inplace
@@ -44,7 +44,23 @@ uv run python setup.py build_ext --inplace
 
 The `--inplace` option creates the built `.pyd`/`.so` extension file directly alongside the source `.pyx` file in the source tree, instead of putting it under build. That allows Python to find it, and lets you use the package without installing it.
 
-**To try package:**
+### Without --inplace
+
+If you run `setup.py build_ext` without `--inplace` option, then you would need to install the package before using it, as shown below.
+
+### To install current package in editable (development) mode
+
+```bash
+uv pip install -e .
+```
+
+### To uninstall current package in edit mode
+
+```bash
+uv pip uninstall fibonacci-extension
+```
+
+### To try the package
 
 ```bash
 uv run python -c 'from fibonacci import fibonacci; print(f"fibonacci(10): {fibonacci(10)}")'
@@ -69,18 +85,6 @@ sequence = fibonacci_sequence(10)  # Returns [0, 1, 1, 2, 3, 5, 8, 13, 21, 34]
 ```
 
 ## Release Build
-
-**To install current package in editable (development) mode:**
-
-```bash
-uv pip install -e .
-```
-
-**To uninstall current package in edit mode:**
-
-```bash
-uv pip uninstall fibonacci-extension
-```
 
 **To build wheel (whl):**
 
