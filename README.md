@@ -114,6 +114,18 @@ uv run python -m build --sdist --no-isolation
 
 It creates `.tar.gz` source distribution in `dist` directory.
 
+## To build wheel for another python version
+
+You can build for another Python version while current virtual environment is active by using `uv run --python <version>`.
+
+For example, to build for Python 3.12:
+
+```bash
+uv run --python 3.12 python -m build --wheel --no-isolation
+```
+
+It will create `.whl` for Python 3.12 in `dist` directory.
+
 ## To create setup.py
 
 To create a setup.py file needed for build_ext:
