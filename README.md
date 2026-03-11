@@ -39,7 +39,7 @@ uv sync --group dev
 ### To build for development
 
 ```bash
-uv run python setup.py build_ext --inplace
+python setup.py build_ext --inplace
 ```
 
 The `--inplace` option creates the built `.pyd`/`.so` extension file directly alongside the source `.pyx` file in the source tree, instead of putting it under build. That allows Python to find it, and lets you use the package without installing it.
@@ -47,10 +47,14 @@ The `--inplace` option creates the built `.pyd`/`.so` extension file directly al
 ### To try the package
 
 ```bash
-uv run python -c 'from hello import hello; print(hello("world"))'
+python -c 'from hello import hello; print(hello("world"))'
 ```
 
-It should output `Hello, world!`.
+**Expected Output:**
+
+```txt
+Hello, world!
+```
 
 ### setup.py build_ext without --inplace
 
@@ -68,32 +72,18 @@ uv pip install -e .
 uv pip uninstall cython-test
 ```
 
-**Expected Output:**
-
-```txt
-Hello, world!
-```
-
-### Example
-
-```python
-from hello import hello
-
-print(hello('world'))
-```
-
 ## Release Build
 
 **To build wheel (whl):**
 
 ```bash
-uv run python -m build --wheel
+python -m build --wheel
 ```
 
 If you get "Access Denied" error whiling removing `%LocalAppData%\Temp\....whl` file on Windows, you can try adding `--no-isolation` option to use local directory.
 
 ```bash
-uv run python -m build --wheel --no-isolation
+python -m build --wheel --no-isolation
 ```
 
 It creates `.whl` file in `dist` directory.
@@ -101,13 +91,13 @@ It creates `.whl` file in `dist` directory.
 **To package source distribution (sdist):**
 
 ```bash
-uv run python -m build --sdist
+python -m build --sdist
 ```
 
 As with wheels, if you get access error with `%LocalAppData%` on Windows, you can try `--no-isolation` option:
 
 ```bash
-uv run python -m build --sdist --no-isolation
+python -m build --sdist --no-isolation
 ```
 
 It creates `.tar.gz` source distribution in `dist` directory.
@@ -129,7 +119,7 @@ It will create `.whl` for Python 3.12 in `dist` directory.
 To create a setup.py file needed for build_ext:
 
 ```bash
-uv run python -c "import setuptools; from Cython.Build import cythonize; import os; os.system('python setup.py build_ext --inplace')"
+python -c "import setuptools; from Cython.Build import cythonize; import os; os.system('python setup.py build_ext --inplace')"
 ```
 
 ## Clean up
@@ -137,7 +127,7 @@ uv run python -c "import setuptools; from Cython.Build import cythonize; import 
 To clean up:
 
 ```bash
-uv run python setup.py clean --all
+python setup.py clean --all
 rm -rf build/
 rm -rf dist/
 rm -rf *.egg-info/
